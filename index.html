@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Faiyaj — Tier 3 Unlocked</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+  :root{
+    --shell-dark:#0f3d57;
+    --shell:#1d6fa3;
+    --shell-light:#3fa3d6;
+    --belly:#e8d9a8;
+    --belly-light:#f6ecc9;
+    --foam:#eafbff;
+    --cannon:#9aa5ab;
+    --ink:#062231;
+    --accent:#ff6b4a;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:'Space Grotesk', sans-serif;
+    background: linear-gradient(180deg, #07283d 0%, #0c3a57 35%, #135a82 70%, #1d6fa3 100%);
+    color:var(--foam);
+    overflow-x:hidden;
+    min-height:100vh;
+    position:relative;
+  }
+
+  /* ---------- Ambient water bubbles ---------- */
+  .bubble-field{
+    position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden;
+  }
+  .bubble{
+    position:absolute;
+    bottom:-50px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,.1) 60%, transparent 70%);
+    animation:rise linear infinite;
+    opacity:.6;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0;}
+    10%{opacity:.7;}
+    100%{ transform:translateY(-110vh) translateX(20px); opacity:0;}
+  }
+
+  /* ---------- Header / Hero ---------- */
+  header{
+    position:relative; z-index:2;
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:40px 20px;
+  }
+
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--shell-light);
+    background:rgba(234,251,255,.08);
+    border:1px solid rgba(234,251,255,.25);
+    padding:6px 16px;
+    border-radius:30px;
+    margin-bottom:24px;
+  }
+
+  h1.title{
+    font-family:'Bangers', cursive;
+    font-size:clamp(48px, 11vw, 120px);
+    letter-spacing:2px;
+    line-height:0.95;
+    color:var(--belly-light);
+    text-shadow:
+      4px 4px 0 var(--shell-dark),
+      0 0 40px rgba(63,163,214,.6);
+  }
+
+  .title small{
+    display:block;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(16px,3vw,22px);
+    letter-spacing:6px;
+    text-transform:uppercase;
+    color:var(--shell-light);
+    text-shadow:none;
+    margin-top:10px;
+  }
+
+  .subline{
+    max-width:560px;
+    margin:28px auto 0;
+    font-size:18px;
+    line-height:1.6;
+    color:rgba(234,251,255,.85);
+  }
+
+  .subline b{ color:var(--belly-light); }
+
+  /* ---------- Blastoise Shell Card ---------- */
+  .shell-stage{
+    margin-top:56px;
+    position:relative;
+    width:min(420px, 80vw);
+    aspect-ratio:1/1;
+  }
+
+  .shell{
+    position:absolute; inset:0;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 35% 30%, var(--shell-light), var(--shell) 55%, var(--shell-dark) 100%);
+    box-shadow:
+      inset -20px -20px 60px rgba(0,0,0,.35),
+      inset 20px 20px 40px rgba(255,255,255,.15),
+      0 30px 70px rgba(0,0,0,.5);
+    animation:bob 4s ease-in-out infinite;
+  }
+
+  .shell::before{
+    content:"";
+    position:absolute; inset:14%;
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 45%, var(--belly-light), var(--belly) 70%);
+    box-shadow: inset 0 0 30px rgba(0,0,0,.2);
+  }
+
+  .shell::after{
+    content:"65";
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Bangers', cursive;
+    font-size:18vw;
+    max-font-size:90px;
+    color:var(--shell-dark);
+    opacity:.18;
+  }
+
+  @keyframes bob{
+    0%,100%{ transform:translateY(0) rotate(0deg);}
+    50%{ transform:translateY(-14px) rotate(1.5deg);}
+  }
+
+  .cannon{
+    position:absolute;
+    width:14%;
+    aspect-ratio:1/2.2;
+    background:linear-gradient(180deg, #c4ccd1, var(--cannon) 60%, #6e767b);
+    border-radius:30% 30% 10% 10%;
+    box-shadow: inset -4px 0 8px rgba(0,0,0,.3), 0 6px 14px rgba(0,0,0,.4);
+  }
+  .cannon.left{ top:6%; left:2%; transform:rotate(-12deg); }
+  .cannon.right{ top:6%; right:2%; transform:rotate(12deg); }
+
+  .water-jet{
+    position:absolute;
+    top:-6%;
+    width:6px;
+    height:0;
+    background:linear-gradient(180deg, var(--foam), transparent);
+    border-radius:4px;
+    opacity:0;
+  }
+  .cannon.left .water-jet{ left:50%; transform:translateX(-50%) rotate(-12deg); transform-origin:bottom center;}
+  .cannon.right .water-jet{ left:50%; transform:translateX(-50%) rotate(12deg); transform-origin:bottom center;}
+
+  .firing .water-jet{
+    animation: jet 1.1s ease-out forwards;
+  }
+  @keyframes jet{
+    0%{ height:0; opacity:0; top:-2%;}
+    15%{ opacity:1;}
+    100%{ height:340px; top:-300px; opacity:0;}
+  }
+
+  .fire-btn{
+    margin-top:48px;
+    font-family:'Bangers', cursive;
+    font-size:24px;
+    letter-spacing:2px;
+    color:var(--ink);
+    background:linear-gradient(180deg, #ffe89a, var(--accent));
+    border:none;
+    padding:16px 36px;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 10px 0 #b8431f, 0 16px 30px rgba(0,0,0,.4);
+    transition:transform .12s ease;
+  }
+  .fire-btn:active{ transform:translateY(8px); box-shadow:0 2px 0 #b8431f, 0 6px 16px rgba(0,0,0,.4); }
+  .fire-btn:focus-visible{ outline:3px solid var(--belly-light); outline-offset:4px; }
+
+  /* ---------- Sections ---------- */
+  section{
+    position:relative; z-index:2;
+    max-width:880px;
+    margin:0 auto;
+    padding:90px 24px;
+  }
+
+  .label{
+    font-size:13px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--shell-light);
+    margin-bottom:14px;
+    display:block;
+  }
+
+  h2{
+    font-family:'Bangers', cursive;
+    font-size:clamp(30px,5vw,48px);
+    color:var(--belly-light);
+    letter-spacing:1px;
+    margin-bottom:30px;
+  }
+
+  /* Stat Card / Pokedex entry */
+  .dex-card{
+    background:rgba(8,40,60,.6);
+    border:2px solid var(--shell);
+    border-radius:18px;
+    padding:32px;
+    backdrop-filter:blur(6px);
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+  }
+
+  .dex-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 0;
+    border-bottom:1px dashed rgba(234,251,255,.2);
+    font-size:16px;
+  }
+  .dex-row:last-child{ border-bottom:none; }
+  .dex-row .stat-name{ color:rgba(234,251,255,.65); letter-spacing:1px; text-transform:uppercase; font-size:13px; }
+  .dex-row .stat-val{ font-weight:700; color:var(--belly-light); text-align:right; }
+
+  /* Moveset / wishes grid */
+  .moves{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:20px;
+  }
+  .move-card{
+    background:linear-gradient(160deg, rgba(63,163,214,.18), rgba(15,61,87,.5));
+    border:1px solid rgba(63,163,214,.4);
+    border-radius:14px;
+    padding:22px;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .move-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 16px 30px rgba(0,0,0,.4);
+    border-color:var(--belly-light);
+  }
+  .move-card .move-type{
+    font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--accent); margin-bottom:8px; display:block;
+  }
+  .move-card h3{
+    font-family:'Bangers', cursive;
+    font-size:22px;
+    color:var(--belly-light);
+    margin-bottom:8px;
+    letter-spacing:1px;
+  }
+  .move-card p{ font-size:14.5px; line-height:1.55; color:rgba(234,251,255,.8); }
+
+  /* Evolution timeline */
+  .timeline{
+    display:flex; flex-direction:column; gap:0;
+    border-left:3px solid var(--shell);
+    margin-left:14px;
+  }
+  .t-item{
+    position:relative;
+    padding:0 0 40px 32px;
+  }
+  .t-item::before{
+    content:"";
+    position:absolute; left:-9.5px; top:2px;
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--accent);
+    border:3px solid var(--foam);
+  }
+  .t-item h4{
+    font-family:'Bangers', cursive;
+    font-size:20px;
+    color:var(--belly-light);
+    letter-spacing:1px;
+    margin-bottom:6px;
+  }
+  .t-item p{ font-size:14.5px; color:rgba(234,251,255,.78); line-height:1.55; }
+
+  /* Closing / cake cannon section */
+  .closing{
+    text-align:center;
+    padding-bottom:120px;
+  }
+  .closing h2{ margin-bottom:18px; }
+  .closing p{
+    max-width:520px; margin:0 auto 36px;
+    font-size:17px; line-height:1.7;
+    color:rgba(234,251,255,.85);
+  }
+  .signature{
+    font-family:'Bangers', cursive;
+    font-size:22px;
+    letter-spacing:2px;
+    color:var(--shell-light);
+  }
+
+  footer{
+    position:relative; z-index:2;
+    text-align:center;
+    padding:40px 30px 50px;
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(234,251,255,.4);
+  }
+
+  .footer-credit{
+    margin-bottom:16px;
+  }
+
+  .insta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:none;
+    color:var(--foam);
+    background:linear-gradient(135deg, #4f5bd5, #962fbf, #d62976, #fa7e1e, #feda75);
+    padding:10px 20px;
+    border-radius:30px;
+    box-shadow:0 8px 20px rgba(0,0,0,.4);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .insta-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 26px rgba(0,0,0,.5);
+  }
+  .insta-btn:focus-visible{ outline:3px solid var(--belly-light); outline-offset:3px; }
+
+  /* Confetti */
+  .confetti-piece{
+    position:fixed;
+    top:-20px;
+    width:10px; height:14px;
+    z-index:50;
+    pointer-events:none;
+    animation:fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform:translateY(110vh) rotate(540deg); opacity:.2; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .shell{ animation:none; }
+    .bubble{ animation:none; display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bubble-field" id="bubbleField"></div>
+
+<header>
+  <span class="eyebrow">Golibar Region · Birthday Broadcast</span>
+  <h1 class="title">FAIYAJ
+    
+  </h1>
+  <p class="subline">
+    Tier 3 starter, fully evolved, max happiness. Today the cannons come out
+    not for battle — but for <b>celebration</b>. Happy Birthday.
+  </p>
+
+  <div class="shell-stage" id="shellStage">
+    <div class="shell"></div>
+    <div class="cannon left"><div class="water-jet"></div></div>
+    <div class="cannon right"><div class="water-jet"></div></div>
+  </div>
+
+  <button class="fire-btn" id="fireBtn">🌊 FIRE WATER CANNONS</button>
+</header>
+
+<section>
+  <span class="label">Pokédex Entry №009</span>
+  <h2>The Birthday Pokémon</h2>
+  <div class="dex-card">
+    <div class="dex-row"><span class="stat-name">Name</span><span class="stat-val">Faiyaj</span></div>
+    <div class="dex-row"><span class="stat-name">Type</span><span class="stat-val">Water / Loyal Friend</span></div>
+    <div class="dex-row"><span class="stat-name">Ability</span><span class="stat-val">Torrent — power rises when things get tough</span></div>
+    <div class="dex-row"><span class="stat-name">Signature Move</span><span class="stat-val">Bhaut Mota hai</span></div>
+    <div class="dex-row"><span class="stat-name">Habitat</span><span class="stat-val">Jaha man karta hai</span></div>
+    <div class="dex-row"><span class="stat-name">Status</span><span class="stat-val">Fully evolved, one year wiser 🎂</span></div>
+  </div>
+</section>
+
+<section>
+  <span class="label">Trainer Registry</span>
+  <h2>Profile Card</h2>
+  <div class="dex-card">
+    <div class="dex-row"><span class="stat-name">Age</span><span class="stat-val">nhi pata</span></div>
+    <div class="dex-row"><span class="stat-name">Met</span><span class="stat-val">since school</span></div>
+    <div class="dex-row"><span class="stat-name">Weight Class</span><span class="stat-val">1000KG</span></div>
+    <div class="dex-row"><span class="stat-name">Trainer ID</span><span class="stat-val">friend, no contest</span></div>
+    <div class="dex-row"><span class="stat-name">Caught At</span><span class="stat-val">Level: school days</span></div>
+    <div class="dex-row"><span class="stat-name">Friendship</span><span class="stat-val">maxed out, can't go higher</span></div>
+  </div>
+</section>
+
+<section class="closing">
+  <span class="label">Final Transmission</span>
+  <h2>Happy Birthday, Faiyaj </h2>
+  <p>
+    Here's to another year of being unstoppable, loyal, and just the right amount of chaotic.
+    Hit that cannon button as many times as you want — consider it confetti instead of water this time.
+  </p>
+  <p class="signature">— your trainer for life</p>
+</section>
+
+<footer>
+  <div class="footer-credit">Developed &amp; Hosted by Faiz</div>
+  <a class="insta-btn" href="https://instagram.com/khan0.exe" target="_blank" rel="noopener noreferrer">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2"/>
+      <circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/>
+    </svg>
+    @khan0.exe
+  </a>
+</footer>
+
+<script>
+  // Ambient bubbles
+  const field = document.getElementById('bubbleField');
+  const bubbleCount = 28;
+  for(let i=0;i<bubbleCount;i++){
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = 6 + Math.random()*22;
+    b.style.width = size+'px';
+    b.style.height = size+'px';
+    b.style.left = Math.random()*100+'vw';
+    b.style.animationDuration = (8 + Math.random()*10)+'s';
+    b.style.animationDelay = (Math.random()*10)+'s';
+    field.appendChild(b);
+  }
+
+  // Fire cannons + confetti
+  const fireBtn = document.getElementById('fireBtn');
+  const shellStage = document.getElementById('shellStage');
+  const colors = ['#ff6b4a','#eafbff','#f6ecc9','#3fa3d6','#ffe89a'];
+
+  function launchConfetti(){
+    for(let i=0;i<60;i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random()*100+'vw';
+      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+      piece.style.animationDuration = (2.2 + Math.random()*1.8)+'s';
+      piece.style.opacity = 0.85;
+      document.body.appendChild(piece);
+      setTimeout(()=>piece.remove(), 4200);
+    }
+  }
+
+  fireBtn.addEventListener('click', () => {
+    shellStage.classList.remove('firing');
+    void shellStage.offsetWidth; // restart animation
+    shellStage.classList.add('firing');
+    launchConfetti();
+    fireBtn.textContent = "🎉 FULL POWER!";
+    setTimeout(()=>{ fireBtn.textContent = "🌊 FIRE WATER CANNONS"; }, 1500);
+  });
+
+  // Auto-fire once on load for impact
+  window.addEventListener('load', () => {
+    setTimeout(()=>{ fireBtn.click(); }, 600);
+  });
+</script>
+
+</body>
+</html>
